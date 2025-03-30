@@ -1,0 +1,1444 @@
+{
+  "C:\\Users\\cristhian.moreno_pra\\Documents\\Reto AWS\\serverless api\\java-api\\serverless.yml": {
+    "versionFramework": "4.9.1",
+    "servicePath": "C:\\Users\\cristhian.moreno_pra\\Documents\\Reto AWS\\serverless api\\java-api\\serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "slsretoaws",
+      "app": "serverless-api",
+      "service": "java-api",
+      "provider": {
+        "name": "aws",
+        "runtime": "java21",
+        "region": "us-east-1",
+        "apiGateway": {
+          "restApiId": "w0yvm6l4h0",
+          "restApiRootResourceId": "ufbtjs0kqd"
+        },
+        "stage": "dev",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "PutUserLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/java-api-dev-putUser"
+              }
+            },
+            "DeleteUserLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/java-api-dev-deleteUser"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "java-api",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/java-api-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/java-api-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "java-api",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "PutUserLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+                  "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/putUser.zip"
+                },
+                "Handler": "org.serverless.aws.put.PutHandler.handleRequest",
+                "Runtime": "java21",
+                "FunctionName": "java-api-dev-putUser",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "PutUserLogGroup"
+              ]
+            },
+            "DeleteUserLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+                  "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/deleteUser.zip"
+                },
+                "Handler": "org.serverless.aws.delete.DeleteHandler.handleRequest",
+                "Runtime": "java21",
+                "FunctionName": "java-api-dev-deleteUser",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "DeleteUserLogGroup"
+              ]
+            },
+            "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "PutUserLambdaFunction"
+                },
+                "CodeSha256": "Nwj9Cl/o2cwCXjwXoRHHnyjp+i8UQS2spQqNYQDuv54="
+              }
+            },
+            "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "DeleteUserLambdaFunction"
+                },
+                "CodeSha256": "ik4g4wBxEEm225My/9/EktkU7AphGJIgMEIHmILjCfU="
+              }
+            },
+            "ApiGatewayResourceJava": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": "ufbtjs0kqd",
+                "PathPart": "java",
+                "RestApiId": "w0yvm6l4h0"
+              }
+            },
+            "ApiGatewayResourceJavaUpdate": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceJava"
+                },
+                "PathPart": "update",
+                "RestApiId": "w0yvm6l4h0"
+              }
+            },
+            "ApiGatewayResourceJavaUpdateIdVar": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceJavaUpdate"
+                },
+                "PathPart": "{id}",
+                "RestApiId": "w0yvm6l4h0"
+              }
+            },
+            "ApiGatewayResourceJavaDelete": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceJava"
+                },
+                "PathPart": "delete",
+                "RestApiId": "w0yvm6l4h0"
+              }
+            },
+            "ApiGatewayResourceJavaDeleteIdVar": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceJavaDelete"
+                },
+                "PathPart": "{id}",
+                "RestApiId": "w0yvm6l4h0"
+              }
+            },
+            "ApiGatewayMethodJavaUpdateIdVarPut": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "PUT",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceJavaUpdateIdVar"
+                },
+                "RestApiId": "w0yvm6l4h0",
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "PutUserLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "PutUserLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodJavaDeleteIdVarDelete": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "DELETE",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceJavaDeleteIdVar"
+                },
+                "RestApiId": "w0yvm6l4h0",
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "DeleteUserLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "DeleteUserLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1743239765344": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": "w0yvm6l4h0",
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodJavaUpdateIdVarPut",
+                "ApiGatewayMethodJavaDeleteIdVarDelete"
+              ]
+            },
+            "PutUserLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "PutUserLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      "w0yvm6l4h0",
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "DeleteUserLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "DeleteUserLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      "w0yvm6l4h0",
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+              "Export": {
+                "Name": "sls-java-api-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "PutUserLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU"
+              },
+              "Export": {
+                "Name": "sls-java-api-dev-PutUserLambdaFunctionQualifiedArn"
+              }
+            },
+            "DeleteUserLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w"
+              },
+              "Export": {
+                "Name": "sls-java-api-dev-DeleteUserLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    "w0yvm6l4h0",
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-java-api-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      },
+      "package": {
+        "individually": true,
+        "excludeDevDependencies": true,
+        "patterns": [
+          "!src/main/resources",
+          "!src/test",
+          "!serverless.yml",
+          "!.gitignore",
+          "!.idea",
+          "!.serverless",
+          "src/main/java/org/serverless/aws/utils/**",
+          "pom.xml"
+        ],
+        "artifactsS3KeyDirname": "serverless/java-api/dev/code-artifacts",
+        "deploymentBucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+        "artifactDirectoryName": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z"
+      },
+      "functions": {
+        "putUser": {
+          "handler": "org.serverless.aws.put.PutHandler.handleRequest",
+          "events": [
+            {
+              "http": {
+                "path": "java/update/{id}",
+                "method": "put",
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "package": {
+            "patterns": [
+              "src/main/java/org/serverless/aws/put/**",
+              "!src/main/java/org/serverless/aws/delete/**"
+            ],
+            "artifact": ".serverless\\putUser.zip"
+          },
+          "name": "java-api-dev-putUser",
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "java21",
+          "vpc": {},
+          "versionLogicalId": "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU"
+        },
+        "deleteUser": {
+          "handler": "org.serverless.aws.delete.DeleteHandler.handleRequest",
+          "events": [
+            {
+              "http": {
+                "path": "java/delete/{id}",
+                "method": "delete",
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "package": {
+            "patterns": [
+              "src/main/java/org/serverless/aws/delete/**",
+              "!src/main/java/org/serverless/aws/put/**"
+            ],
+            "artifact": ".serverless\\deleteUser.zip"
+          },
+          "name": "java-api-dev-deleteUser",
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "java21",
+          "vpc": {},
+          "versionLogicalId": "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w"
+        }
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "java21",
+      "region": "us-east-1",
+      "apiGateway": {
+        "restApiId": "w0yvm6l4h0",
+        "restApiRootResourceId": "ufbtjs0kqd"
+      },
+      "stage": "dev",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "PutUserLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/java-api-dev-putUser"
+            }
+          },
+          "DeleteUserLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/java-api-dev-deleteUser"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "java-api",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/java-api-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/java-api-dev*:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "java-api",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "PutUserLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+                "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/putUser.zip"
+              },
+              "Handler": "org.serverless.aws.put.PutHandler.handleRequest",
+              "Runtime": "java21",
+              "FunctionName": "java-api-dev-putUser",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "PutUserLogGroup"
+            ]
+          },
+          "DeleteUserLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+                "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/deleteUser.zip"
+              },
+              "Handler": "org.serverless.aws.delete.DeleteHandler.handleRequest",
+              "Runtime": "java21",
+              "FunctionName": "java-api-dev-deleteUser",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "DeleteUserLogGroup"
+            ]
+          },
+          "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "PutUserLambdaFunction"
+              },
+              "CodeSha256": "Nwj9Cl/o2cwCXjwXoRHHnyjp+i8UQS2spQqNYQDuv54="
+            }
+          },
+          "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "DeleteUserLambdaFunction"
+              },
+              "CodeSha256": "ik4g4wBxEEm225My/9/EktkU7AphGJIgMEIHmILjCfU="
+            }
+          },
+          "ApiGatewayResourceJava": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": "ufbtjs0kqd",
+              "PathPart": "java",
+              "RestApiId": "w0yvm6l4h0"
+            }
+          },
+          "ApiGatewayResourceJavaUpdate": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceJava"
+              },
+              "PathPart": "update",
+              "RestApiId": "w0yvm6l4h0"
+            }
+          },
+          "ApiGatewayResourceJavaUpdateIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceJavaUpdate"
+              },
+              "PathPart": "{id}",
+              "RestApiId": "w0yvm6l4h0"
+            }
+          },
+          "ApiGatewayResourceJavaDelete": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceJava"
+              },
+              "PathPart": "delete",
+              "RestApiId": "w0yvm6l4h0"
+            }
+          },
+          "ApiGatewayResourceJavaDeleteIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceJavaDelete"
+              },
+              "PathPart": "{id}",
+              "RestApiId": "w0yvm6l4h0"
+            }
+          },
+          "ApiGatewayMethodJavaUpdateIdVarPut": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PUT",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceJavaUpdateIdVar"
+              },
+              "RestApiId": "w0yvm6l4h0",
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "PutUserLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "PutUserLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodJavaDeleteIdVarDelete": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "DELETE",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceJavaDeleteIdVar"
+              },
+              "RestApiId": "w0yvm6l4h0",
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "DeleteUserLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "DeleteUserLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1743239765344": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": "w0yvm6l4h0",
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodJavaUpdateIdVarPut",
+              "ApiGatewayMethodJavaDeleteIdVarDelete"
+            ]
+          },
+          "PutUserLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "PutUserLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    "w0yvm6l4h0",
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "DeleteUserLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "DeleteUserLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    "w0yvm6l4h0",
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+            "Export": {
+              "Name": "sls-java-api-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "PutUserLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU"
+            },
+            "Export": {
+              "Name": "sls-java-api-dev-PutUserLambdaFunctionQualifiedArn"
+            }
+          },
+          "DeleteUserLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w"
+            },
+            "Export": {
+              "Name": "sls-java-api-dev-DeleteUserLambdaFunctionQualifiedArn"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  "w0yvm6l4h0",
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-java-api-dev-ServiceEndpoint"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "dashboard": {
+      "isEnabledForService": true,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": {
+        "providers": false,
+        "monitoring": false
+      },
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": "GPjksVLdwPPTcJTxjZ",
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\r\norg: slsretoaws\r\n# \"app\" enables Serverless Framework Dashboard features and sharing them with other Services.\r\napp: serverless-api\r\n# \"service\" is the name of this project. This will also be added to your AWS resource names.\r\nservice: java-api\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: java21\r\n  region: us-east-1\r\n  apiGateway:\r\n    restApiId: w0yvm6l4h0\r\n    restApiRootResourceId: ufbtjs0kqd\r\n\r\npackage:\r\n  individually: true  # Importante: desactivar empaquetado global\r\n  excludeDevDependencies: true  # No incluir devDependencies\r\n  patterns:\r\n    - '!src/main/resources'\r\n    - '!src/test'\r\n    - '!serverless.yml'\r\n    - '!.gitignore'\r\n    - '!.idea'\r\n    - '!.serverless'\r\n    - 'src/main/java/org/serverless/aws/utils/**'\r\n    - 'pom.xml'\r\n\r\nfunctions:\r\n  putUser:\r\n    handler: org.serverless.aws.put.PutHandler.handleRequest\r\n    events:\r\n      - http:\r\n          path: /java/update/{id}\r\n          method: PUT\r\n    package:\r\n      patterns:\r\n        - 'src/main/java/org/serverless/aws/put/**' # Incluir\r\n        - '!src/main/java/org/serverless/aws/delete/**' # Excluir\r\n  deleteUser:\r\n    handler: org.serverless.aws.delete.DeleteHandler.handleRequest\r\n    events:\r\n      - http:\r\n          path: /java/delete/{id}\r\n          method: DELETE\r\n    package:\r\n      patterns:\r\n        - 'src/main/java/org/serverless/aws/delete/**'  # Incluir solo DELETE\r\n        - '!src/main/java/org/serverless/aws/put/**'\r\n\r\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "orgId": "699f04be-a7e2-426d-911d-dd50a525b0a8",
+    "orgName": "slsretoaws",
+    "userId": "z4lHP5PMptX85CCWs8",
+    "userName": "awsreto",
+    "serviceProviderAwsAccountId": "638417785527",
+    "serviceProviderAwsCfStackName": "java-api-dev",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:638417785527:stack/java-api-dev/4044c760-0c7d-11f0-b0f7-0affc4789135",
+    "serviceProviderAwsCfStackCreated": "2025-03-29T09:07:33.834Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "DeleteUserLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:638417785527:function:java-api-dev-deleteUser:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-java-api-dev-DeleteUserLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "PutUserLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:638417785527:function:java-api-dev-putUser:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-java-api-dev-PutUserLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://w0yvm6l4h0.execute-api.us-east-1.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-java-api-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+        "ExportName": "sls-java-api-dev-ServerlessDeploymentBucketName"
+      }
+    ],
+    "compiledCloudFormationTemplate": {
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "The AWS CloudFormation template for this Serverless application",
+      "Resources": {
+        "PutUserLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/java-api-dev-putUser"
+          }
+        },
+        "DeleteUserLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/java-api-dev-deleteUser"
+          }
+        },
+        "IamRoleLambdaExecution": {
+          "Type": "AWS::IAM::Role",
+          "Properties": {
+            "AssumeRolePolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": [
+                      "lambda.amazonaws.com"
+                    ]
+                  },
+                  "Action": [
+                    "sts:AssumeRole"
+                  ]
+                }
+              ]
+            },
+            "Policies": [
+              {
+                "PolicyName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "java-api",
+                      "dev",
+                      "lambda"
+                    ]
+                  ]
+                },
+                "PolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "logs:CreateLogStream",
+                        "logs:CreateLogGroup",
+                        "logs:TagResource"
+                      ],
+                      "Resource": [
+                        {
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/java-api-dev*:*"
+                        }
+                      ]
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "logs:PutLogEvents"
+                      ],
+                      "Resource": [
+                        {
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/java-api-dev*:*:*"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "Path": "/",
+            "RoleName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "java-api",
+                  "dev",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  "lambdaRole"
+                ]
+              ]
+            }
+          }
+        },
+        "PutUserLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+              "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/putUser.zip"
+            },
+            "Handler": "org.serverless.aws.put.PutHandler.handleRequest",
+            "Runtime": "java21",
+            "FunctionName": "java-api-dev-putUser",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "PutUserLogGroup"
+          ]
+        },
+        "DeleteUserLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+              "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/deleteUser.zip"
+            },
+            "Handler": "org.serverless.aws.delete.DeleteHandler.handleRequest",
+            "Runtime": "java21",
+            "FunctionName": "java-api-dev-deleteUser",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "DeleteUserLogGroup"
+          ]
+        },
+        "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "PutUserLambdaFunction"
+            },
+            "CodeSha256": "Nwj9Cl/o2cwCXjwXoRHHnyjp+i8UQS2spQqNYQDuv54="
+          }
+        },
+        "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "DeleteUserLambdaFunction"
+            },
+            "CodeSha256": "ik4g4wBxEEm225My/9/EktkU7AphGJIgMEIHmILjCfU="
+          }
+        },
+        "ApiGatewayResourceJava": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": "ufbtjs0kqd",
+            "PathPart": "java",
+            "RestApiId": "w0yvm6l4h0"
+          }
+        },
+        "ApiGatewayResourceJavaUpdate": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceJava"
+            },
+            "PathPart": "update",
+            "RestApiId": "w0yvm6l4h0"
+          }
+        },
+        "ApiGatewayResourceJavaUpdateIdVar": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceJavaUpdate"
+            },
+            "PathPart": "{id}",
+            "RestApiId": "w0yvm6l4h0"
+          }
+        },
+        "ApiGatewayResourceJavaDelete": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceJava"
+            },
+            "PathPart": "delete",
+            "RestApiId": "w0yvm6l4h0"
+          }
+        },
+        "ApiGatewayResourceJavaDeleteIdVar": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceJavaDelete"
+            },
+            "PathPart": "{id}",
+            "RestApiId": "w0yvm6l4h0"
+          }
+        },
+        "ApiGatewayMethodJavaUpdateIdVarPut": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "PUT",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceJavaUpdateIdVar"
+            },
+            "RestApiId": "w0yvm6l4h0",
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "PutUserLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "PutUserLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodJavaDeleteIdVarDelete": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "DELETE",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceJavaDeleteIdVar"
+            },
+            "RestApiId": "w0yvm6l4h0",
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "DeleteUserLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "DeleteUserLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayDeployment1743239765344": {
+          "Type": "AWS::ApiGateway::Deployment",
+          "Properties": {
+            "RestApiId": "w0yvm6l4h0",
+            "StageName": "dev"
+          },
+          "DependsOn": [
+            "ApiGatewayMethodJavaUpdateIdVarPut",
+            "ApiGatewayMethodJavaDeleteIdVarDelete"
+          ]
+        },
+        "PutUserLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "PutUserLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  "w0yvm6l4h0",
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "DeleteUserLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "DeleteUserLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  "w0yvm6l4h0",
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "Outputs": {
+        "ServerlessDeploymentBucketName": {
+          "Value": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
+          "Export": {
+            "Name": "sls-java-api-dev-ServerlessDeploymentBucketName"
+          }
+        },
+        "PutUserLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU"
+          },
+          "Export": {
+            "Name": "sls-java-api-dev-PutUserLambdaFunctionQualifiedArn"
+          }
+        },
+        "DeleteUserLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w"
+          },
+          "Export": {
+            "Name": "sls-java-api-dev-DeleteUserLambdaFunctionQualifiedArn"
+          }
+        },
+        "ServiceEndpoint": {
+          "Description": "URL of the service endpoint",
+          "Value": {
+            "Fn::Join": [
+              "",
+              [
+                "https://",
+                "w0yvm6l4h0",
+                ".execute-api.",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ".",
+                {
+                  "Ref": "AWS::URLSuffix"
+                },
+                "/dev"
+              ]
+            ]
+          },
+          "Export": {
+            "Name": "sls-java-api-dev-ServiceEndpoint"
+          }
+        }
+      }
+    }
+  }
+}

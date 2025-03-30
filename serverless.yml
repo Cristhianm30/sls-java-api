@@ -1,0 +1,50 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: slsretoaws
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: serverless-api
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: java-api
+
+provider:
+  name: aws
+  runtime: java21
+  region: us-east-1
+  apiGateway:
+    restApiId: w0yvm6l4h0
+    restApiRootResourceId: ufbtjs0kqd
+
+package:
+  individually: true  # Importante: desactivar empaquetado global
+  excludeDevDependencies: true  # No incluir devDependencies
+  patterns:
+    - '!src/main/resources'
+    - '!src/test'
+    - '!serverless.yml'
+    - '!.gitignore'
+    - '!.idea'
+    - '!.serverless'
+    - 'src/main/java/org/serverless/aws/utils/**'
+    - 'pom.xml'
+
+functions:
+  putUser:
+    handler: org.serverless.aws.put.PutHandler::handleRequest
+    events:
+      - http:
+          path: /java/update/{id}
+          method: PUT
+    package:
+      patterns:
+        - 'src/main/java/org/serverless/aws/put/**' # Incluir
+        - '!src/main/java/org/serverless/aws/delete/**' # Excluir
+  deleteUser:
+    handler: org.serverless.aws.delete.DeleteHandler::handleRequest
+    events:
+      - http:
+          path: /java/delete/{id}
+          method: DELETE
+    package:
+      patterns:
+        - 'src/main/java/org/serverless/aws/delete/**'  # Incluir solo DELETE
+        - '!src/main/java/org/serverless/aws/put/**'
+
