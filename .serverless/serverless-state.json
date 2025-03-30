@@ -113,9 +113,9 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
-                "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/putUser.zip"
+                "S3Key": "serverless/java-api/dev/1743366727188-2025-03-30T20:32:07.188Z/java-api-1.0-SNAPSHOT.jar"
               },
-              "Handler": "org.serverless.aws.put.PutHandler.handleRequest",
+              "Handler": "org.serverless.aws.put.PutHandler::handleRequest",
               "Runtime": "java21",
               "FunctionName": "java-api-dev-putUser",
               "MemorySize": 1024,
@@ -136,9 +136,9 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
-                "S3Key": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z/deleteUser.zip"
+                "S3Key": "serverless/java-api/dev/1743366727188-2025-03-30T20:32:07.188Z/java-api-1.0-SNAPSHOT.jar"
               },
-              "Handler": "org.serverless.aws.delete.DeleteHandler.handleRequest",
+              "Handler": "org.serverless.aws.delete.DeleteHandler::handleRequest",
               "Runtime": "java21",
               "FunctionName": "java-api-dev-deleteUser",
               "MemorySize": 1024,
@@ -154,24 +154,24 @@
               "DeleteUserLogGroup"
             ]
           },
-          "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU": {
+          "PutUserLambdaVersionTm5xHIIox4tF3lRzRNtZv9BYerR4sOf2Yp4UZE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PutUserLambdaFunction"
               },
-              "CodeSha256": "Nwj9Cl/o2cwCXjwXoRHHnyjp+i8UQS2spQqNYQDuv54="
+              "CodeSha256": "QL/d79wwDEmwUf0jY5kutcFP6PAFQk2wwS42HW3Hgz4="
             }
           },
-          "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w": {
+          "DeleteUserLambdaVersionjpryypTQPKdWsalw00wkgHyS0Rau3MR49wP00lmF3E": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DeleteUserLambdaFunction"
               },
-              "CodeSha256": "ik4g4wBxEEm225My/9/EktkU7AphGJIgMEIHmILjCfU="
+              "CodeSha256": "QL/d79wwDEmwUf0jY5kutcFP6PAFQk2wwS42HW3Hgz4="
             }
           },
           "ApiGatewayResourceJava": {
@@ -310,7 +310,7 @@
               "DeleteUserLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1743239765344": {
+          "ApiGatewayDeployment1743366721305": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": "w0yvm6l4h0",
@@ -402,7 +402,7 @@
           "PutUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU"
+              "Ref": "PutUserLambdaVersionTm5xHIIox4tF3lRzRNtZv9BYerR4sOf2Yp4UZE"
             },
             "Export": {
               "Name": "sls-java-api-dev-PutUserLambdaFunctionQualifiedArn"
@@ -411,7 +411,7 @@
           "DeleteUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w"
+              "Ref": "DeleteUserLambdaVersionjpryypTQPKdWsalw00wkgHyS0Rau3MR49wP00lmF3E"
             },
             "Export": {
               "Name": "sls-java-api-dev-DeleteUserLambdaFunctionQualifiedArn"
@@ -448,7 +448,7 @@
     "pluginsData": {},
     "functions": {
       "putUser": {
-        "handler": "org.serverless.aws.put.PutHandler.handleRequest",
+        "handler": "org.serverless.aws.put.PutHandler::handleRequest",
         "events": [
           {
             "http": {
@@ -458,22 +458,16 @@
             }
           }
         ],
-        "package": {
-          "patterns": [
-            "src/main/java/org/serverless/aws/put/**",
-            "!src/main/java/org/serverless/aws/delete/**"
-          ],
-          "artifact": ".serverless\\putUser.zip"
-        },
         "name": "java-api-dev-putUser",
+        "package": {},
         "memory": 1024,
         "timeout": 6,
         "runtime": "java21",
         "vpc": {},
-        "versionLogicalId": "PutUserLambdaVersionQdt1VdB40S7MfD9eC5xoNCbee1MVXOly8KfbtrxtU"
+        "versionLogicalId": "PutUserLambdaVersionTm5xHIIox4tF3lRzRNtZv9BYerR4sOf2Yp4UZE"
       },
       "deleteUser": {
-        "handler": "org.serverless.aws.delete.DeleteHandler.handleRequest",
+        "handler": "org.serverless.aws.delete.DeleteHandler::handleRequest",
         "events": [
           {
             "http": {
@@ -483,19 +477,13 @@
             }
           }
         ],
-        "package": {
-          "patterns": [
-            "src/main/java/org/serverless/aws/delete/**",
-            "!src/main/java/org/serverless/aws/put/**"
-          ],
-          "artifact": ".serverless\\deleteUser.zip"
-        },
         "name": "java-api-dev-deleteUser",
+        "package": {},
         "memory": 1024,
         "timeout": 6,
         "runtime": "java21",
         "vpc": {},
-        "versionLogicalId": "DeleteUserLambdaVersionpagU7NUIrW6XXvxcCs2mqaybn75OFtPXptpX4of3w"
+        "versionLogicalId": "DeleteUserLambdaVersionjpryypTQPKdWsalw00wkgHyS0Rau3MR49wP00lmF3E"
       }
     },
     "configValidationMode": "warn",
@@ -508,7 +496,8 @@
         "$ref": "$[\"service\"][\"provider\"]"
       },
       "package": {
-        "individually": true,
+        "artifact": "target/java-api-1.0-SNAPSHOT.jar",
+        "individually": false,
         "excludeDevDependencies": true,
         "patterns": [
           "!src/main/resources",
@@ -522,11 +511,22 @@
         ],
         "artifactsS3KeyDirname": "serverless/java-api/dev/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-us-east-1-3d2674e6-9b4a",
-        "artifactDirectoryName": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z"
+        "artifactDirectoryName": "serverless/java-api/dev/1743366727188-2025-03-30T20:32:07.188Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
-      }
+      },
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:GetItem",
+            "dynamodb:DeleteItem",
+            "dynamodb:UpdateItem"
+          ],
+          "Resource": "arn:aws:dynamodb:us-east-1:638417785527:table/sls-users"
+        }
+      ]
     },
     "app": "serverless-api",
     "appId": null,
@@ -535,8 +535,8 @@
     "layers": {}
   },
   "package": {
-    "individually": true,
-    "artifactDirectoryName": "serverless/java-api/dev/1743239770792-2025-03-29T09:16:10.792Z",
-    "artifact": ""
+    "individually": false,
+    "artifactDirectoryName": "serverless/java-api/dev/1743366727188-2025-03-30T20:32:07.188Z",
+    "artifact": "target/java-api-1.0-SNAPSHOT.jar"
   }
 }

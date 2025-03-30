@@ -14,7 +14,8 @@ provider:
     restApiRootResourceId: ufbtjs0kqd
 
 package:
-  individually: true  # Importante: desactivar empaquetado global
+  artifact: target/java-api-1.0-SNAPSHOT.jar
+  individually: false
   excludeDevDependencies: true  # No incluir devDependencies
   patterns:
     - '!src/main/resources'
@@ -33,18 +34,19 @@ functions:
       - http:
           path: /java/update/{id}
           method: PUT
-    package:
-      patterns:
-        - 'src/main/java/org/serverless/aws/put/**' # Incluir
-        - '!src/main/java/org/serverless/aws/delete/**' # Excluir
+
   deleteUser:
     handler: org.serverless.aws.delete.DeleteHandler::handleRequest
     events:
       - http:
           path: /java/delete/{id}
           method: DELETE
-    package:
-      patterns:
-        - 'src/main/java/org/serverless/aws/delete/**'  # Incluir solo DELETE
-        - '!src/main/java/org/serverless/aws/put/**'
+
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:GetItem
+      - dynamodb:DeleteItem
+      - dynamodb:UpdateItem
+    Resource: "arn:aws:dynamodb:us-east-1:638417785527:table/sls-users"
 
